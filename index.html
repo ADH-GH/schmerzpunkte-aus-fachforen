@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Schmerzpunkte aus Fachforen</title>
+<style>
+:root{--bg:oklch(19% .022 258);--panel:oklch(23.5% .024 258);--raise:oklch(28.5% .025 258);--ink:oklch(95% .008 250);
+--ink2:oklch(82% .014 252);--mute:oklch(70% .018 253);--line:oklch(32% .025 258);--grid:oklch(27.5% .022 258);
+--accent:oklch(65.8% .128 251);--onaccent:oklch(16% .02 258);--glow:oklch(65.8% .128 251 / .18);
+--crit:oklch(70% .19 22);--high:oklch(78% .14 80);--auto:oklch(70% .14 155);
+--mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+--sans:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+--display:"Sora",ui-sans-serif,system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box}html{color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.01em}:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+header,main{max-width:1180px;margin:0 auto;padding:0 32px}header{margin-top:32px}main{padding-bottom:64px}
+.kicker{font:500 12.5px/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.kicker::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--glow);margin-right:10px;vertical-align:1px}
+h1{margin:22px 0 13px;font:600 38px/1.1 var(--display);letter-spacing:-.02em}
+.sub{color:var(--mute);font-size:13.5px;margin:0 0 8px;max-width:70ch}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:16px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 12px 10px}
+.tile b{display:block;font:500 28px/1.1 var(--mono);letter-spacing:-.02em;color:var(--accent);white-space:nowrap}
+.tile i{display:block;font:500 10.5px/1.3 var(--mono);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;margin-top:12px;min-width:0}
+.card h2{margin:0 0 4px;font:600 18px/1.3 var(--display);color:var(--ink)}.card p.sub{margin-bottom:14px}
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px}
+label{display:block;font:500 10.5px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:12px 0 5px}
+input,select,textarea{width:100%;height:36px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:14px var(--sans)}
+textarea{height:auto;padding:10px;font:13px/1.5 var(--mono)}
+button{height:36px;font:600 14px/1 var(--sans);border-radius:8px;padding:0 16px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink)}
+button:hover{background:var(--raise)}button.ok{border-color:var(--accent);background:var(--accent);color:var(--onaccent)}
+button[disabled]{opacity:.45;cursor:not-allowed}
+table{border-collapse:collapse;width:100%;font-size:13.5px}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--grid);vertical-align:top}
+th{font:500 10.5px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}td.num,th.num{text-align:right;font-family:var(--mono)}
+.tag{display:inline-block;font:500 11px/1.8 var(--mono);letter-spacing:.04em;border:1px solid currentColor;border-radius:6px;padding:0 8px;margin:0 4px 0 0;white-space:nowrap}
+.tag.auto{color:var(--auto)}.tag.appr{color:var(--high)}.tag.crit{color:var(--crit)}.tag.info{color:var(--accent)}
+.mute{color:var(--mute)}.mono{font-family:var(--mono)}
+footer{max-width:1180px;margin:0 auto;padding:0 32px 40px;color:var(--mute);font-size:12.5px;line-height:1.6}
+@media(max-width:720px){header,main,footer{padding-left:16px;padding-right:16px}h1{font-size:28px}.card{overflow-x:auto}}
+
+/* Ergaenzungen fuer dieses Tool */
+.tag{margin-bottom:4px;white-space:normal}
+.klein{font-size:12.5px;color:var(--mute);margin:2px 0 0}
+.zeile{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.fehler{color:var(--crit);font-size:13px;min-height:1.2em;margin:8px 0 0}
+.posten{border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:10px;background:var(--bg)}
+.posten.raus{opacity:.5}
+input[type=checkbox]{width:18px;height:18px;padding:0;accent-color:var(--accent);vertical-align:middle;flex:none}
+.check{display:flex;gap:8px;align-items:flex-start;text-transform:none;letter-spacing:0;font:13.5px/1.4 var(--sans);color:var(--ink);margin:12px 0 0}
+.check input{margin-top:2px}
+button.schmal{height:30px;padding:0 12px;font-size:13px}
+tr.gewaehlt td{background:var(--raise)}
+.kopfzeile{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;justify-content:space-between}
+.kopfzeile .rechts{min-width:300px}.kopfzeile .rechts label{margin-top:0}
+.felder2{display:grid;grid-template-columns:2fr 1fr;gap:0 12px;align-items:end}
+h3{font-size:14px;margin:16px 0 0}
+#magazin{min-height:330px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<header>
+  <div class="kicker">Showroom ADH · Marktbeobachtung</div>
+  <h1>Schmerzpunkte aus Fachforen</h1>
+  <p class="sub">Was Anwender in Fachforen wirklich aufhält, je Themenfeld die fünf häufigsten Punkte. Jeder wird mit dem eigenen Lösungskatalog abgeglichen: Wo es eine Lösung gibt, hat der Vertrieb einen Gesprächsanlass, wo keine, hat die Technik einen Kandidaten. Dazu entsteht die Vorlage für einen Magazinbeitrag. Foren, Beiträge, Katalog und Personen sind erfunden.</p>
+  <div class="tiles" id="tiles" aria-live="polite">
+    <div class="tile"><b id="kBeitraege">0</b><i>Beiträge aus 90 Tagen</i></div>
+    <div class="tile"><b id="kPunkte">0</b><i>Schmerzpunkte erkannt</i></div>
+    <div class="tile"><b id="kLoesung">0</b><i>der häufigsten mit Lösung</i></div>
+    <div class="tile"><b id="kLuecke">0</b><i>Lücken im Katalog</i></div>
+    <div class="tile"><b id="kOffen">0</b><i>noch zu bewerten</i></div>
+  </div>
+</header>
+
+<main>
+  <section class="card" id="karteQuellen" aria-labelledby="hQuellen">
+    <div class="kopfzeile">
+      <div>
+        <h2 id="hQuellen">Quellen, Stand 24.12.2026</h2>
+        <p class="sub">Gelesen wird nur Öffentliches, und nur dort, wo das Forum es nicht ausschließt. Namen von Verfassern werden nicht gespeichert.</p>
+      </div>
+      <div class="rechts"><label for="wer">Angemeldet als</label><select id="wer"></select></div>
+    </div>
+    <table id="tabQuellen">
+      <thead><tr><th>Forum</th><th>Regel des Forums</th><th class="num">Beiträge gelesen</th><th>Stand</th></tr></thead>
+      <tbody id="quellenBody"></tbody>
+    </table>
+  </section>
+
+  <section class="card" id="karteTop" aria-labelledby="hTop">
+    <h2 id="hTop">Die fünf häufigsten Schmerzpunkte</h2>
+    <p class="sub">Gezählt werden Beiträge je Schmerzpunkt. Bei Gleichstand zählt, in wie vielen Foren er vorkommt, dann der jüngste Beitrag.</p>
+    <div class="felder2">
+      <div><label for="feld">Themenfeld</label><select id="feld"></select></div>
+      <div><button type="button" id="bFeld">Anzeigen</button></div>
+    </div>
+    <table id="tabTop" style="margin-top:12px">
+      <thead><tr><th>Rang</th><th>Schmerzpunkt</th><th class="num">Beiträge</th><th class="num">Foren</th><th>Abgleich mit dem Katalog</th><th></th></tr></thead>
+      <tbody id="topBody"></tbody>
+    </table>
+  </section>
+
+  <div class="duo">
+    <section class="card" id="karteBeitraege" aria-labelledby="hBeitraege">
+      <h2 id="hBeitraege">Die Beiträge dahinter</h2>
+      <p class="sub">Die Zuordnung schlägt ein Sprachmodell vor. Die Produktmanagerin sieht jeden Beitrag und nimmt heraus, was nicht passt.</p>
+      <div id="beitraege"></div>
+      <p class="fehler" id="fehlerBeitraege" role="alert"></p>
+    </section>
+
+    <section class="card" id="karteAbgleich" aria-labelledby="hAbgleich">
+      <h2 id="hAbgleich">Abgleich mit dem Lösungskatalog</h2>
+      <p class="sub">Eine Regel sucht Kandidaten über Stichworte. Ob die Lösung den Schmerzpunkt wirklich trifft, entscheidet ein Mensch.</p>
+      <div id="abgleich"></div>
+      <label for="bewertung">Bewertung</label>
+      <select id="bewertung">
+        <option value="vorhanden">Lösung vorhanden</option>
+        <option value="teilweise">Lösung deckt nur einen Teil</option>
+        <option value="luecke">Lücke, keine Lösung im Katalog</option>
+      </select>
+      <div class="zeile"><button type="button" class="ok" id="bBewerten">Bewertung eintragen</button></div>
+      <p class="fehler" id="fehlerAbgleich" role="alert"></p>
+    </section>
+  </div>
+
+  <div class="duo">
+    <section class="card" id="karteVertrieb" aria-labelledby="hVertrieb">
+      <h2 id="hVertrieb">Bericht für den Vertrieb</h2>
+      <p class="sub">Schmerzpunkte, zu denen es eine Lösung gibt. Jeder ist ein Anlass für ein Gespräch.</p>
+      <div id="berichtVertrieb"></div>
+    </section>
+    <section class="card" id="karteTechnik" aria-labelledby="hTechnik">
+      <h2 id="hTechnik">Bericht für die Technik</h2>
+      <p class="sub">Schmerzpunkte ohne Lösung, die häufigsten zuerst. Kandidaten für die Entwicklung.</p>
+      <div id="berichtTechnik"></div>
+    </section>
+  </div>
+
+  <section class="card" id="karteFreigabe" aria-labelledby="hFreigabe">
+    <h2 id="hFreigabe">Prüfen, freigeben, übernehmen</h2>
+    <p class="sub">Die Produktmanagerin prüft, die Leitung gibt den Bericht frei. Danach übernehmen Vertrieb und Technik ihren Teil.</p>
+    <div id="berichtStand" aria-live="polite"></div>
+    <div class="zeile">
+      <button type="button" class="ok" id="bPruefen">Bericht als geprüft eintragen</button>
+      <button type="button" id="bFreigeben">Bericht freigeben</button>
+      <button type="button" id="bVertrieb">Für den Vertrieb übernehmen</button>
+      <button type="button" id="bTechnik">In die Planung nehmen</button>
+    </div>
+    <p class="fehler" id="fehlerFreigabe" role="alert"></p>
+  </section>
+
+  <section class="card" id="karteMagazin" aria-labelledby="hMagazin">
+    <h2 id="hMagazin">Vorlage für einen Magazinbeitrag</h2>
+    <p class="sub">Aus den fünf Punkten des gewählten Themenfelds. Eine Gliederung mit Stoff, kein fertiger Text.</p>
+    <label for="magazin">Vorlage</label>
+    <textarea id="magazin" readonly spellcheck="false"></textarea>
+  </section>
+
+  <section class="card" id="karteProtokoll" aria-labelledby="hProtokoll">
+    <h2 id="hProtokoll">Protokoll</h2>
+    <p class="sub">Was herausgenommen, bewertet und freigegeben wurde, mit Name und Zeit. Der neueste Eintrag zuerst.</p>
+    <table id="tabProtokoll">
+      <thead><tr><th>Zeit</th><th>Wer</th><th>Vorgang</th></tr></thead>
+      <tbody id="protokollBody"></tbody>
+    </table>
+  </section>
+
+  <section class="card" id="karteSystem" aria-labelledby="hSystem">
+    <h2 id="hSystem">So wird daraus Ihr System</h2>
+    <table>
+      <tbody>
+        <tr><th scope="row">Einführung</th><td>Wir legen mit Ihnen fest, welche Themenfelder zählen, welche Foren gelesen werden dürfen und wie Ihr Lösungskatalog aussieht. Der erste Bericht entsteht gemeinsam.</td></tr>
+        <tr><th scope="row">Anbindung</th><td>Die Beiträge sammelt ein Ablauf in n8n, der die Regeln jedes Forums achtet. Der Katalog kommt aus Ihrer Produktliste im ERP, etwa Odoo. Gesprächsanlässe gehen in Ihr Vertriebssystem, Kandidaten in die Planung der Entwicklung.</td></tr>
+        <tr><th scope="row">Schulung</th><td>Produktmanagement lernt, Zuordnungen zu prüfen und zu bewerten. Vertrieb und Technik lernen, den Bericht zu lesen und ihren Teil zu übernehmen.</td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<footer>Showroom ADH, 24.12.2026. Beispieldaten. Alle Eingaben bleiben in diesem Browserfenster. Auf dieser Seite wird kein Forum gelesen und kein Sprachmodell gefragt, Beiträge und Zuordnungen sind erfunden und hinterlegt.</footer>
+
+<script>
+"use strict";
+/* ---------- Stammdaten (Beispiel, erfunden) ---------- */
+var P = {
+  simon:    { n: "Vera Simon", r: "Produktmanagerin" },
+  reuter:   { n: "Olaf Reuter", r: "Leitung Produktmanagement" },
+  kraft:    { n: "Ines Kraft", r: "Leitung Vertrieb" },
+  petersen: { n: "Jan Petersen", r: "Leitung Entwicklung" }
+};
+var PID = ["simon", "reuter", "kraft", "petersen"];
+var FOREN = {
+  a: { n: "Anwenderforum Warenwirtschaft", regel: "Lesen erlaubt, kein Vorbehalt erklärt", ok: true },
+  b: { n: "Forum Rechnungswesen", regel: "Lesen erlaubt, kein Vorbehalt erklärt", ok: true },
+  c: { n: "Forum Lagerpraxis", regel: "Lesen erlaubt, kein Vorbehalt erklärt", ok: true },
+  d: { n: "Entwicklerforum Schnittstellen", regel: "Vorbehalt gegen maschinelles Auslesen erklärt", ok: false }
+};
+var FELD = { r: "Rechnungseingang", l: "Lager", s: "Schnittstellen" };
+var K = [
+  { n: "E-Rechnung im Eingang: Positionen lesen und buchen", w: ["e-rechnung", "positionen"] },
+  { n: "Dublettenprüfung für Eingangsrechnungen", w: ["doppelt", "dublette"] },
+  { n: "Freigabe mit Vertretung", w: ["freigabe", "vertretung", "urlaub"] },
+  { n: "Bericht offene Rechnungen mit Fälligkeit", w: ["skonto", "fällig"] },
+  { n: "Chargenverfolgung", w: ["charge"] },
+  { n: "Bestellvorschlag nach Mindestbestand", w: ["mindestbestand"] },
+  { n: "Etikettendruck", w: ["etikett"] },
+  { n: "Export an die Finanzbuchhaltung", w: ["buchhaltung", "export"] },
+  { n: "Bankabgleich mit Regeln", w: ["bank"] },
+  { n: "Überwachung der Schnittstellenläufe", w: ["fehlermeldung", "überwach"] },
+  { n: "Wartungsvertrag mit Tests vor jedem Update", w: ["update"] }
+];
+var SP = [
+  { id: "r1", f: "r", n: "E-Rechnung wird eingelesen, aber die Positionen kommen nicht in der Buchung an", b: [
+    ["a", "02.12.", "Die E-Rechnung kommt an, der Kopf ist da, aber die Positionen fehlen in der Buchung. Tippen wir jetzt jede Zeile ab?"],
+    ["b", "28.11.", "E-Rechnung importiert, Summe stimmt, Positionen leer. Hat jemand eine Lösung?"],
+    ["b", "14.11.", "Seit der Umstellung lesen wir E-Rechnungen ein, aber die Kontierung je Position geht verloren."],
+    ["a", "03.11.", "Die Positionen aus der E-Rechnung landen alle auf einem Konto. Das kann doch nicht gewollt sein."],
+    ["b", "21.10.", "Es kommt nur der Gesamtbetrag in die Buchung, die Positionen nicht."]] },
+  { id: "r2", f: "r", n: "Dieselbe Rechnung wird doppelt erfasst", b: [
+    ["b", "05.12.", "Der Lieferant schickt die Rechnung per Mail und über das Portal. Wir haben sie zweimal gebucht."],
+    ["a", "19.11.", "Gleiche Rechnungsnummer, zweimal erfasst, zweimal bezahlt. Gibt es keine Prüfung?"],
+    ["b", "07.11.", "Doppelte Rechnungen fallen uns erst beim Kontoauszug auf."],
+    ["a", "30.10.", "Wir haben denselben Lieferanten zweimal im Stamm, mit verschiedenen Nummern."]] },
+  { id: "r3", f: "r", n: "Die Freigabe bleibt liegen, wenn der Freigeber im Urlaub ist", b: [
+    ["b", "09.12.", "Chef im Urlaub, die Rechnungen warten auf Freigabe, das Skonto ist weg."],
+    ["a", "12.11.", "Wie regelt ihr die Vertretung bei der Rechnungsfreigabe? Bei uns bleibt alles liegen."],
+    ["b", "16.10.", "Die Freigabe hängt an einer Person. Ist sie krank, zahlt niemand."]] },
+  { id: "r4", f: "r", n: "Die Skontofrist ist nirgends zu sehen", b: [
+    ["b", "24.11.", "Ich sehe nirgends, bis wann Skonto gilt. Muss ich das wirklich im Kopf rechnen?"],
+    ["a", "06.10.", "Die Skontofrist steht auf der Rechnung, aber nicht in der Liste der offenen Rechnungen."]] },
+  { id: "r5", f: "r", n: "Bei Teillieferungen stimmt der Abgleich mit der Bestellung nicht", b: [
+    ["a", "01.12.", "Bestellt hundert, geliefert sechzig, berechnet sechzig. Das System meldet trotzdem eine Abweichung."],
+    ["b", "10.11.", "Teillieferung und Teilrechnung: Der Abgleich mit der Bestellung schlägt jedes Mal fehl."]] },
+  { id: "r6", f: "r", n: "Gutschriften werden als Rechnung gelesen", b: [
+    ["b", "18.11.", "Eine Gutschrift vom Lieferanten wurde als Rechnung eingelesen und stand zur Zahlung an."]] },
+  { id: "l1", f: "l", n: "Inventurdifferenzen lassen sich nicht nachvollziehen", b: [
+    ["c", "08.12.", "Nach der Inventur fehlen Teile, und niemand kann sagen, wann sie verschwunden sind."],
+    ["c", "27.11.", "Inventurdifferenz gebucht, Ursache unbekannt, jedes Jahr dasselbe."],
+    ["a", "15.11.", "Wo sehe ich, wer wann was nachgezählt hat?"],
+    ["c", "04.11.", "Differenzen werden einfach ausgebucht. Der Prüfer fragt nach dem Warum."],
+    ["a", "22.10.", "Bestand laut System und Regal passen nie zusammen, und wir finden den Fehler nicht."]] },
+  { id: "l2", f: "l", n: "Eine Charge lässt sich nach der Auslieferung nicht zurückverfolgen", b: [
+    ["c", "03.12.", "Ein Kunde reklamiert, und wir wissen nicht, wohin dieselbe Charge noch ging."],
+    ["a", "20.11.", "Die Charge steht am Wareneingang, aber nicht mehr am Lieferschein."],
+    ["c", "29.10.", "Die Rückverfolgung einer Charge dauert bei uns einen halben Tag."],
+    ["c", "13.10.", "Die Chargennummer geht bei der Umlagerung verloren."]] },
+  { id: "l3", f: "l", n: "Der Mindestbestand meldet sich zu spät", b: [
+    ["a", "10.12.", "Mindestbestand unterschritten, die Meldung kam erst, als das Regal leer war."],
+    ["c", "17.11.", "Der Bestellvorschlag rechnet nicht mit der Lieferzeit."],
+    ["a", "08.10.", "Wir bestellen nach Gefühl, weil die Meldung zu spät kommt."]] },
+  { id: "l4", f: "l", n: "Der Scanner verliert die Verbindung, Buchungen fehlen", b: [
+    ["c", "01.12.", "Der Scanner im hinteren Lager verliert das Netz, die Buchungen sind weg."],
+    ["c", "12.11.", "Gescannt, aber nicht gebucht. Das merkt man erst bei der Inventur."],
+    ["a", "26.10.", "Gibt es Scanner, die ohne Verbindung weiterarbeiten und später nachbuchen?"]] },
+  { id: "l5", f: "l", n: "Umlagerungen zwischen Standorten werden doppelt gebucht", b: [
+    ["a", "25.11.", "Eine Umlagerung von einem Standort zum anderen taucht zweimal auf."],
+    ["c", "05.11.", "Nach der Umlagerung ist der Bestand an beiden Standorten zu hoch."]] },
+  { id: "l6", f: "l", n: "Der Etikettendruck hat das falsche Format", b: [
+    ["c", "19.11.", "Das Etikett kommt im falschen Format aus dem Drucker."]] },
+  { id: "s1", f: "s", n: "Die Übergabe an die Buchhaltung bricht bei Sonderzeichen ab", b: [
+    ["b", "04.12.", "Der Export an die Buchhaltung bricht ab, sobald ein Umlaut im Kundennamen steht."],
+    ["a", "21.11.", "Die Übergabe an den Steuerberater scheitert an einem Sonderzeichen."],
+    ["b", "02.11.", "Ein kaufmännisches Und im Firmennamen, und der ganze Lauf steht."],
+    ["b", "14.10.", "Fehler beim Export, Ursache war ein Zeilenumbruch im Buchungstext."]] },
+  { id: "s2", f: "s", n: "Bestellungen aus dem Shop kommen doppelt an", b: [
+    ["a", "06.12.", "Immer wieder kommt eine Bestellung aus dem Shop zweimal im System an."],
+    ["a", "23.11.", "Der Kunde bestellt einmal, wir liefern zweimal."],
+    ["c", "09.11.", "Doppelte Aufträge aus dem Shop blockieren Bestand."],
+    ["a", "17.10.", "Nach einer Zeitüberschreitung schickt der Shop die Bestellung noch einmal."]] },
+  { id: "s3", f: "s", n: "Nach einem Update läuft die Schnittstelle nicht mehr", b: [
+    ["a", "11.12.", "Update eingespielt, die Schnittstelle zum Versand ist tot."],
+    ["b", "26.11.", "Nach jedem Update dasselbe: Die Anbindung muss neu eingerichtet werden."],
+    ["a", "30.10.", "Wer testet eigentlich die Schnittstellen vor einem Update?"]] },
+  { id: "s4", f: "s", n: "Der Bankabgleich ordnet Zahlungen falsch zu", b: [
+    ["b", "02.12.", "Der Bankabgleich ordnet Zahlungen dem falschen Kunden zu."],
+    ["b", "13.11.", "Eine Sammelzahlung wird nicht erkannt, alles von Hand."],
+    ["a", "20.10.", "Eine Zahlung mit Tippfehler im Verwendungszweck bleibt offen."]] },
+  { id: "s5", f: "s", n: "Scheitert ein Lauf, kommt keine Fehlermeldung", b: [
+    ["a", "27.11.", "Der Lauf in der Nacht ist gescheitert, gemerkt haben wir es drei Tage später."],
+    ["c", "21.10.", "Keine Fehlermeldung, wenn die Übertragung abbricht."]] },
+  { id: "s6", f: "s", n: "Kundendaten weichen zwischen zwei Systemen voneinander ab", b: [
+    ["a", "16.11.", "Adresse im Shop geändert, im ERP steht die alte."]] }
+];
+
+/* ---------- Zustand ---------- */
+var BEW = { r1: "vorhanden", r2: "vorhanden", r3: "vorhanden", r4: "teilweise", l1: "luecke", l2: "vorhanden", l3: "teilweise", l4: "luecke", l5: "luecke", s1: "vorhanden", s3: "teilweise", s4: "vorhanden", s5: "vorhanden" };
+var feld = "r", auswahl = "r2", stand = "entwurf", geprueftVon = null, freiVon = null, vertriebVon = null, technikVon = null, protokoll = [];
+
+/* ---------- Helfer ---------- */
+function $(id) { return document.getElementById(id); }
+function h(tag, attrs, kinder) {
+  var e = document.createElement(tag), k;
+  if (attrs) for (k in attrs) {
+    if (k === "text") e.textContent = attrs[k];
+    else if (k === "klasse") e.className = attrs[k];
+    else e.setAttribute(k, attrs[k]);
+  }
+  (kinder || []).forEach(function (c) { if (c) e.appendChild(c); });
+  return e;
+}
+function tag(text, klasse) { return h("span", { klasse: "tag " + klasse, text: text }); }
+function zwei(n) { return (n < 10 ? "0" : "") + n; }
+function jetzt() { var d = new Date(); return zwei(d.getHours()) + ":" + zwei(d.getMinutes()) + ":" + zwei(d.getSeconds()); }
+function logge(wer, was) { protokoll.unshift({ zeit: jetzt(), wer: wer, was: was }); }
+function punkt(id) { return SP.filter(function (s) { return s.id === id; })[0]; }
+function tagwert(d) { var p = d.split("."); return +p[1] * 100 + +p[0]; }
+function pm(wer) { return wer === "simon" || wer === "reuter"; }
+
+/* ---------- Regeln ---------- */
+function gueltig(s) { return s.b.filter(function (x) { return !x.raus; }); }
+function foren(s) { var L = []; gueltig(s).forEach(function (x) { if (L.indexOf(x.forum) < 0) L.push(x.forum); }); return L.length; }
+function juengster(s) { return gueltig(s).reduce(function (m, x) { return Math.max(m, tagwert(x.d)); }, 0); }
+function rangliste(f) {
+  return SP.filter(function (s) { return s.f === f && gueltig(s).length; }).sort(function (x, y) { return gueltig(y).length - gueltig(x).length || foren(y) - foren(x) || juengster(y) - juengster(x); });
+}
+function top(f) { return rangliste(f).slice(0, 5); }
+function alleTop() { return top("r").concat(top("l"), top("s")); }
+function kandidaten(s) {
+  var t = s.n.toLowerCase(), L = [];
+  K.forEach(function (k) { var w = k.w.filter(function (x) { return t.indexOf(x) >= 0; })[0]; if (w) L.push({ k: k, w: w }); });
+  return L;
+}
+function bewTag(s) {
+  var b = BEW[s.id];
+  if (b === "vorhanden") return tag("Lösung vorhanden", "auto");
+  if (b === "teilweise") return tag("Lösung deckt einen Teil", "appr");
+  if (b === "luecke") return tag("Lücke im Katalog", "crit");
+  return tag("noch zu bewerten", "info");
+}
+
+/* ---------- Anzeige ---------- */
+function zeigeKacheln() {
+  var T = alleTop();
+  $("kBeitraege").textContent = String(SP.reduce(function (n, s) { return n + gueltig(s).length; }, 0));
+  $("kPunkte").textContent = String(SP.filter(function (s) { return gueltig(s).length; }).length);
+  $("kLoesung").textContent = T.filter(function (s) { return BEW[s.id] === "vorhanden" || BEW[s.id] === "teilweise"; }).length + " von " + T.length;
+  $("kLuecke").textContent = String(T.filter(function (s) { return BEW[s.id] === "luecke"; }).length);
+  $("kOffen").textContent = String(T.filter(function (s) { return !BEW[s.id]; }).length);
+}
+function zeigeQuellen() {
+  var body = $("quellenBody");
+  body.textContent = "";
+  Object.keys(FOREN).forEach(function (f) {
+    var n = 0;
+    SP.forEach(function (s) { s.b.forEach(function (x) { if (x.forum === f) n++; }); });
+    body.appendChild(h("tr", { id: "forum-" + f }, [h("td", { text: FOREN[f].n }), h("td", { text: FOREN[f].regel }), h("td", { klasse: "num", text: FOREN[f].ok ? String(n) : "0" }), h("td", null, [FOREN[f].ok ? tag("wird gelesen", "auto") : tag("wird nicht gelesen", "crit")])]));
+  });
+}
+function zeigeTop() {
+  var body = $("topBody");
+  body.textContent = "";
+  top(feld).forEach(function (s, i) {
+    var kn = h("button", { type: "button", klasse: "schmal", id: "oeffne-" + s.id, text: "Öffnen" });
+    kn.addEventListener("click", function () { auswahl = s.id; $("bewertung").value = BEW[s.id] || "vorhanden"; $("fehlerAbgleich").textContent = ""; $("fehlerBeitraege").textContent = ""; zeigeAlles(); });
+    body.appendChild(h("tr", { id: "zeile-" + s.id, klasse: s.id === auswahl ? "gewaehlt" : "" }, [
+      h("td", { klasse: "mono", text: String(i + 1) }), h("td", { text: s.n }), h("td", { klasse: "num", text: String(gueltig(s).length) }), h("td", { klasse: "num", text: String(foren(s)) }), h("td", null, [bewTag(s)]), h("td", null, [kn])
+    ]));
+  });
+}
+function zeigeBeitraege() {
+  var s = punkt(auswahl), box = $("beitraege"), ab = $("abgleich"), C = kandidaten(s);
+  box.textContent = ""; ab.textContent = "";
+  box.appendChild(h("div", null, [h("b", { text: s.n })]));
+  s.b.forEach(function (x) {
+    var kn = h("button", { type: "button", klasse: "schmal", id: "raus-" + x.id, text: x.raus ? "Wieder aufnehmen" : "Gehört nicht dazu" });
+    kn.addEventListener("click", function () { herausnehmen(s, x); });
+    box.appendChild(h("div", { klasse: "posten" + (x.raus ? " raus" : ""), id: "beitrag-" + x.id }, [
+      h("div", { klasse: "klein", text: FOREN[x.forum].n + ", " + x.d + "2026" + (x.raus ? ", herausgenommen von " + P[x.raus].n : "") }),
+      h("div", { text: "„" + x.text + "“" }), h("div", { klasse: "zeile" }, [kn])
+    ]));
+  });
+  ab.appendChild(h("div", null, [h("b", { text: s.n + " " }), bewTag(s)]));
+  if (!C.length) ab.appendChild(h("div", { klasse: "posten" }, [tag("kein Kandidat im Katalog", "crit"), h("div", { klasse: "klein", text: "Kein Stichwort aus dem Katalog kommt im Schmerzpunkt vor." })]));
+  C.forEach(function (c) { ab.appendChild(h("div", { klasse: "posten" }, [tag("Kandidat", "info"), h("div", { text: c.k.n }), h("div", { klasse: "klein", text: "Gefunden über das Stichwort „" + c.w + "“. Ob es passt, ist damit nicht gesagt." })])); });
+}
+function zeigeBericht() {
+  var v = $("berichtVertrieb"), t = $("berichtTechnik"), T = alleTop(), L, n = 0;
+  v.textContent = ""; t.textContent = "";
+  if (vertriebVon) v.appendChild(tag("übernommen von " + P[vertriebVon].n, "auto"));
+  if (technikVon) t.appendChild(tag("in die Planung genommen von " + P[technikVon].n, "auto"));
+  T.filter(function (s) { return BEW[s.id] === "vorhanden" || BEW[s.id] === "teilweise"; }).forEach(function (s) {
+    v.appendChild(h("div", { klasse: "posten", id: "v-" + s.id }, [
+      h("div", null, [tag(FELD[s.f], "info"), bewTag(s)]), h("div", { text: s.n }),
+      h("div", { klasse: "klein", text: gueltig(s).length + " Beiträge in " + foren(s) + " Foren. Dazu passt: " + (kandidaten(s).map(function (c) { return c.k.n; }).join(", ") || "von Hand zugeordnet") + "." })
+    ]));
+  });
+  L = T.filter(function (s) { return BEW[s.id] === "luecke"; }).sort(function (x, y) { return gueltig(y).length - gueltig(x).length; });
+  L.forEach(function (s) {
+    n++;
+    t.appendChild(h("div", { klasse: "posten", id: "t-" + s.id }, [h("div", null, [tag("Kandidat " + n, "crit"), tag(FELD[s.f], "info")]), h("div", { text: s.n }), h("div", { klasse: "klein", text: gueltig(s).length + " Beiträge in " + foren(s) + " Foren, zuletzt am " + gueltig(s)[0].d + "2026." })]));
+  });
+  if (!L.length) t.appendChild(h("p", { klasse: "klein", text: "Keine Lücke unter den häufigsten Schmerzpunkten." }));
+  T.filter(function (s) { return !BEW[s.id]; }).forEach(function (s) { t.appendChild(h("div", { klasse: "posten" }, [tag("noch zu bewerten", "info"), h("div", { text: FELD[s.f] + ": " + s.n })])); });
+}
+function zeigeFreigabe() {
+  var box = $("berichtStand"), o = alleTop().filter(function (s) { return !BEW[s.id]; });
+  box.textContent = "";
+  if (stand === "frei") box.appendChild(tag("Freigegeben von " + P[freiVon].n + ", geprüft von " + P[geprueftVon].n, "auto"));
+  else if (stand === "geprueft") box.appendChild(tag("Geprüft von " + P[geprueftVon].n + ", wartet auf " + P.reuter.n, "appr"));
+  else if (o.length) box.appendChild(tag("Entwurf, " + o.length + (o.length === 1 ? " Schmerzpunkt ist" : " Schmerzpunkte sind") + " noch zu bewerten", "crit"));
+  else box.appendChild(tag("Entwurf, vollständig bewertet, wartet auf die Prüfung", "appr"));
+}
+function zeigeMagazin() {
+  var Z = [], T = top(feld);
+  Z.push("VORLAGE FÜR EINEN MAGAZINBEITRAG", "Stand: " + (stand === "frei" ? "aus dem freigegebenen Bericht" : "Entwurf, Bericht noch nicht freigegeben") + ".", "");
+  Z.push("Arbeitstitel: Fünf Dinge, die Anwender im Bereich " + FELD[feld] + " am meisten aufhalten", "");
+  Z.push("Vorspann: Wir haben gelesen, worüber Anwender in Fachforen schreiben, und gezählt. Diese fünf Punkte kamen in den letzten 90 Tagen am häufigsten vor.", "");
+  T.forEach(function (s, i) {
+    var b = BEW[s.id];
+    Z.push((i + 1) + ". " + s.n);
+    Z.push("   So klingt es im Forum, ohne Namen: „" + gueltig(s)[0].text + "“");
+    Z.push("   Häufigkeit: " + gueltig(s).length + " Beiträge in " + foren(s) + " Foren.");
+    Z.push("   Was hilft: " + (b === "vorhanden" ? "Dafür gibt es eine erprobte Antwort. Im Text den Weg beschreiben, nicht das Produkt." : b === "teilweise" ? "Es gibt eine Teilantwort. Ehrlich sagen, was sie löst und was nicht." : b === "luecke" ? "Eine fertige Antwort gibt es nicht. Beschreiben, womit sich Betriebe heute behelfen." : "Noch nicht bewertet."), "");
+  });
+  Z.push("Hinweise für die Redaktion: Zitate nur sinngemäß und ohne Namen des Forums oder der Verfasser. Keine Zahl ohne die Angabe, woher sie stammt. Den Text schreibt ein Mensch.");
+  $("magazin").value = Z.join("\n");
+}
+function zeigeProtokoll() {
+  var body = $("protokollBody");
+  body.textContent = "";
+  protokoll.slice(0, 60).forEach(function (e) {
+    body.appendChild(h("tr", null, [h("td", { klasse: "mono", text: e.zeit }), h("td", { text: P[e.wer] ? P[e.wer].n : "Ablauf" }), h("td", { text: e.was })]));
+  });
+}
+function zeigeAlles() { zeigeKacheln(); zeigeQuellen(); zeigeTop(); zeigeBeitraege(); zeigeBericht(); zeigeFreigabe(); zeigeMagazin(); zeigeProtokoll(); }
+
+/* ---------- Vorgaenge ---------- */
+function zurueck() { if (stand === "geprueft") { stand = "entwurf"; geprueftVon = null; } }
+function herausnehmen(s, x) {
+  var wer = $("wer").value, e = $("fehlerBeitraege");
+  e.textContent = "";
+  if (stand === "frei") { e.textContent = "Der Bericht ist freigegeben. Änderungen kommen in den nächsten."; return; }
+  if (!pm(wer)) { e.textContent = "Die Zuordnung prüft das Produktmanagement."; return; }
+  x.raus = x.raus ? null : wer; zurueck();
+  logge(wer, "Beitrag vom " + x.d + "2026 " + (x.raus ? "herausgenommen aus" : "wieder aufgenommen in") + " „" + s.n + "“. Jetzt " + gueltig(s).length + " Beiträge.");
+  zeigeAlles();
+}
+function bewerten() {
+  var wer = $("wer").value, s = punkt(auswahl), e = $("fehlerAbgleich"), b = $("bewertung").value;
+  e.textContent = "";
+  if (stand === "frei") { e.textContent = "Der Bericht ist freigegeben. Änderungen kommen in den nächsten."; return; }
+  if (!pm(wer)) { e.textContent = "Die Bewertung trägt das Produktmanagement ein."; return; }
+  if (b !== "luecke" && !kandidaten(s).length) { e.textContent = "Im Katalog steht kein Kandidat. Eine Lösung lässt sich hier nicht eintragen."; return; }
+  BEW[s.id] = b; zurueck();
+  logge(wer, "„" + s.n + "“ bewertet: " + { vorhanden: "Lösung vorhanden", teilweise: "Lösung deckt einen Teil", luecke: "Lücke im Katalog" }[b] + ".");
+  zeigeAlles();
+}
+function pruefen() {
+  var wer = $("wer").value, e = $("fehlerFreigabe"), o = alleTop().filter(function (s) { return !BEW[s.id]; });
+  e.textContent = "";
+  if (stand !== "entwurf") { e.textContent = "Der Bericht ist schon geprüft."; return; }
+  if (o.length) { e.textContent = "Noch zu bewerten: " + o.map(function (s) { return s.n; }).join("; ") + "."; return; }
+  if (wer !== "simon") { e.textContent = "Den Bericht prüft die Produktmanagerin: " + P.simon.n + "."; return; }
+  stand = "geprueft"; geprueftVon = wer;
+  logge(wer, "Bericht geprüft: 15 Schmerzpunkte in drei Themenfeldern, alle bewertet.");
+  zeigeAlles();
+}
+function freigeben() {
+  var wer = $("wer").value, e = $("fehlerFreigabe");
+  e.textContent = "";
+  if (stand === "frei") { e.textContent = "Der Bericht ist schon freigegeben."; return; }
+  if (stand !== "geprueft") { e.textContent = "Zuerst prüft die Produktmanagerin."; return; }
+  if (wer === geprueftVon) { e.textContent = "Wer geprüft hat, gibt nicht selbst frei."; return; }
+  if (wer !== "reuter") { e.textContent = "Den Bericht gibt die Leitung Produktmanagement frei: " + P.reuter.n + "."; return; }
+  stand = "frei"; freiVon = wer;
+  logge(wer, "Bericht freigegeben. Er geht an Vertrieb und Technik.");
+  zeigeAlles();
+}
+function uebernehmen(rolle) {
+  var wer = $("wer").value, e = $("fehlerFreigabe"), soll = rolle === "vertrieb" ? "kraft" : "petersen";
+  e.textContent = "";
+  if (stand !== "frei") { e.textContent = "Übernommen wird erst der freigegebene Bericht."; return; }
+  if (wer !== soll) { e.textContent = "Das übernimmt " + P[soll].n + ", " + P[soll].r + "."; return; }
+  if (rolle === "vertrieb") { vertriebVon = wer; logge(wer, "Gesprächsanlässe übernommen: " + alleTop().filter(function (s) { return BEW[s.id] === "vorhanden" || BEW[s.id] === "teilweise"; }).length + " Schmerzpunkte mit Lösung."); }
+  else { technikVon = wer; logge(wer, "Kandidaten in die Planung genommen: " + alleTop().filter(function (s) { return BEW[s.id] === "luecke"; }).length + " Lücken."); }
+  zeigeAlles();
+}
+function waehleFeld() {
+  feld = $("feld").value;
+  if (punkt(auswahl).f !== feld) auswahl = top(feld)[0].id;
+  $("bewertung").value = BEW[auswahl] || "vorhanden";
+  zeigeAlles();
+}
+
+/* ---------- Start ---------- */
+(function () {
+  SP.forEach(function (s) { s.b = s.b.map(function (x, i) { return { id: s.id + "-" + (i + 1), forum: x[0], d: x[1], text: x[2], raus: null }; }); });
+  PID.forEach(function (p) { $("wer").appendChild(h("option", { value: p, text: P[p].n + ", " + P[p].r })); });
+  $("wer").value = "simon";
+  Object.keys(FELD).forEach(function (f) { $("feld").appendChild(h("option", { value: f, text: FELD[f] })); });
+  $("feld").value = feld;
+  $("bewertung").value = BEW[auswahl];
+  $("bFeld").addEventListener("click", waehleFeld);
+  ["input", "change"].forEach(function (ev) { $("feld").addEventListener(ev, waehleFeld); });
+  $("bBewerten").addEventListener("click", bewerten);
+  $("bPruefen").addEventListener("click", pruefen);
+  $("bFreigeben").addEventListener("click", freigeben);
+  $("bVertrieb").addEventListener("click", function () { uebernehmen("vertrieb"); });
+  $("bTechnik").addEventListener("click", function () { uebernehmen("technik"); });
+  protokoll.unshift({ zeit: "06:00:00", wer: "", was: "52 Beiträge aus drei Foren gelesen, 18 Schmerzpunkte zugeordnet. Ein Forum mit Vorbehalt nicht gelesen. Zwei der häufigsten sind noch zu bewerten." });
+  zeigeAlles();
+})();
+</script>
+</body>
+</html>
