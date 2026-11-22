@@ -315,8 +315,8 @@ function juengster(s) { return gueltig(s).reduce(function (m, x) { return Math.m
 function rangliste(f) {
   return SP.filter(function (s) { return s.f === f && gueltig(s).length; }).sort(function (x, y) { return gueltig(y).length - gueltig(x).length || foren(y) - foren(x) || juengster(y) - juengster(x); });
 }
-function top(f) { return rangliste(f).slice(0, 5); }
-function alleTop() { return top("r").concat(top("l"), top("s")); }
+function topFuenf(f) { return rangliste(f).slice(0, 5); }
+function alleTop() { return topFuenf("r").concat(topFuenf("l"), topFuenf("s")); }
 function kandidaten(s) {
   var t = s.n.toLowerCase(), L = [];
   K.forEach(function (k) { var w = k.w.filter(function (x) { return t.indexOf(x) >= 0; })[0]; if (w) L.push({ k: k, w: w }); });
@@ -351,7 +351,7 @@ function zeigeQuellen() {
 function zeigeTop() {
   var body = $("topBody");
   body.textContent = "";
-  top(feld).forEach(function (s, i) {
+  topFuenf(feld).forEach(function (s, i) {
     var kn = h("button", { type: "button", klasse: "schmal", id: "oeffne-" + s.id, text: "Öffnen" });
     kn.addEventListener("click", function () { auswahl = s.id; $("bewertung").value = BEW[s.id] || "vorhanden"; $("fehlerAbgleich").textContent = ""; $("fehlerBeitraege").textContent = ""; zeigeAlles(); });
     body.appendChild(h("tr", { id: "zeile-" + s.id, klasse: s.id === auswahl ? "gewaehlt" : "" }, [
@@ -403,7 +403,7 @@ function zeigeFreigabe() {
   else box.appendChild(tag("Entwurf, vollständig bewertet, wartet auf die Prüfung", "appr"));
 }
 function zeigeMagazin() {
-  var Z = [], T = top(feld);
+  var Z = [], T = topFuenf(feld);
   Z.push("VORLAGE FÜR EINEN MAGAZINBEITRAG", "Stand: " + (stand === "frei" ? "aus dem freigegebenen Bericht" : "Entwurf, Bericht noch nicht freigegeben") + ".", "");
   Z.push("Arbeitstitel: Fünf Dinge, die Anwender im Bereich " + FELD[feld] + " am meisten aufhalten", "");
   Z.push("Vorspann: Wir haben gelesen, worüber Anwender in Fachforen schreiben, und gezählt. Diese fünf Punkte kamen in den letzten 90 Tagen am häufigsten vor.", "");
@@ -479,7 +479,7 @@ function uebernehmen(rolle) {
 }
 function waehleFeld() {
   feld = $("feld").value;
-  if (punkt(auswahl).f !== feld) auswahl = top(feld)[0].id;
+  if (punkt(auswahl).f !== feld) auswahl = topFuenf(feld)[0].id;
   $("bewertung").value = BEW[auswahl] || "vorhanden";
   zeigeAlles();
 }
